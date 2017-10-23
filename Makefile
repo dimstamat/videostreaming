@@ -14,7 +14,7 @@ all:	$(PROGS)
 	$(CC) -c $< -I$(INCLUDEPATH) -L$(LIBS) $(FLAGS)
 
 %:	src/%.cc %.o
-	@ if [ "$@" = "streamserver" ] || [ "$@" = "test_udpserv" ] || [ "$@" = "test_udpclient" ]; then \
+	@ if [ "$@" = "streamserver" ] || [ "$@" = "streamclient" ] || [ "$@" = "test_udpserv" ] || [ "$@" = "test_udpclient" ]; then \
 		echo "Building udp objects..." ;\
 		echo $(CC) -c src/udp.cc -I$(INCLUDEPATH) -L$(LIBS) $(FLAGS) ;\
 		$(CC) -c src/udp.cc -I$(INCLUDEPATH) -L$(LIBS) $(FLAGS) ;\
