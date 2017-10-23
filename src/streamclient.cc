@@ -26,10 +26,9 @@ int main( int argc, char** argv )
     struct timeval frameStart, frameEnd;
     #endif
 
-
-    UDPClient client = UDPClient("192.168.1.150", 9090);
+    UDPClient client = UDPClient("dimosdroid.zapto.org", 9090);
     client.send((unsigned char*) ACCEPTANCE_KEY, strlen(ACCEPTANCE_KEY));
-	namedWindow( "Display window", WINDOW_AUTOSIZE ); // Create a window for display.
+	namedWindow( "Fish tank", WINDOW_AUTOSIZE ); // Create a window for display.
     while(1){
 		#if SHOW_FPS
         gettimeofday(&frameStart, NULL);
