@@ -35,7 +35,7 @@ int main( int argc, char** argv )
     	#endif
 
 		buf = client.receive(len);
-		cout << "Received "<< len<<endl;
+		//cout << "Received "<< len<<endl;
 		Mat imgenc = Mat(640, 480, CV_8UC3, (unsigned char*)buf);
 		Mat img = imdecode(imgenc, IMREAD_COLOR);
 		if( img.empty() ) {                     // Check for invalid input
