@@ -32,8 +32,7 @@ int main(int argc, char* argv[])
 		recvbuf = server.receive(len);
 		if (strcmp((const char*)recvbuf, ACCEPTANCE_KEY) != 0)
 			continue;
-		cout << "Received: "<< string((const char*)recvbuf);
-		cout << "Client connected!"<<endl;
+		cout << "Received: "<< string((const char*)recvbuf) <<endl;
 		while (!cap.isOpened()) { // if not success, exit program
         	cout << "Cannot open the video cam! Trying "<< ++camNum<< endl;
     		cap = VideoCapture(camNum);
@@ -53,32 +52,21 @@ int main(int argc, char* argv[])
         	//cout << "Trying to read frame from camera!" <<endl;
 			//cout << "Is video capture opened? " << cap.isOpened()<<endl;
 			cap.grab();
-			cout <<"Grabbing frame "<< i<< endl;
 			bool bSuccess = cap.read(curr_frame); // read a new frame from video
-
-        	//cout << " Read a frame from camera! " << bSuccess << endl;
-
         	if (!bSuccess) { //if not success, break loop
             	cout << "Cannot read a frame from video stream" << endl;
 				cap.release();
 				cap = VideoCapture(++camNum);
         		continue;
 			}
-
 			if(curr_frame.empty()){
 				cout << "Grabbed empty frame! Ignore!"<<endl;
                 continue;
 			}
-			cout <<"Encoding..."<<endl;
-			cout<< " Size: " << curr_frame.size() <<endl;
+			//cout<< " Size: " << curr_frame.size() <<endl;
 			imencode(".jpg", curr_frame, framebuf);
-			cout <<"Encoded!"<<endl;
-			cout <<"Sending..."<<endl;
 			buf = &framebuf[0];
 			server.send(buf, framebuf.size());
-			cout <<"Sent!"<<endl;
-			//imwrite("frame.jpg", curr_frame);
-        	//waitKey(1);
 			i++;
     	}
 	}
