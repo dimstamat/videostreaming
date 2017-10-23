@@ -52,7 +52,6 @@ unsigned char* UDP::receive(size_t& len){
 		}
 		first = false;
 		printf("Received %d bytes\n", recv_sz);
-		//bufvec.insert(bufvec.end(), recvbuf, recvbuf + recv_sz-1);
 	}
 	len = offset;
 	return recvbuf;
@@ -61,7 +60,6 @@ unsigned char* UDP::receive(size_t& len){
 void UDP::send(unsigned char* sendbuf, size_t len){
 	int sendoffset=0;
     int currsendlen;
-    int i=1;
     unsigned char bufchunk [SENDBUFMAXSIZE];
     bool done=false;
     int send_sz;
@@ -74,11 +72,9 @@ void UDP::send(unsigned char* sendbuf, size_t len){
         // leave space for the flag at the end!
         memcpy(bufchunk, sendbuf+sendoffset, currsendlen-1 );
         bufchunk[currsendlen-1] = (done? 0: 1);
-       	printf("Sending %d bytes [%d, %d]\n", currsendlen, sendoffset, sendoffset + currsendlen-2);
+       	//printf("Sending %d bytes [%d, %d]\n", currsendlen, sendoffset, sendoffset + currsendlen-2);
       	send_sz = sendto(sockfd, bufchunk, currsendlen, 0, (struct sockaddr *) &remoteaddr, remotelen);
-       	//usleep(500000);
 		sendoffset+=currsendlen-1;
-        i++;
 	}
     if (send_sz < 0)
     	error("ERROR in sendto");
