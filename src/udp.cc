@@ -51,7 +51,7 @@ unsigned char* UDP::receive(size_t& len){
                 printf("Received datagram from %s (%s)\n", hostp->h_name, hostaddrp);
 		}
 		first = false;
-		//printf("Received %d bytes\n", recv_sz);
+		printf("Received %d bytes\n", recv_sz);
 	}
 	len = offset;
 	return recvbuf;
