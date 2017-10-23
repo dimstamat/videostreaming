@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 			//cout<< " Size: " << curr_frame.size() <<endl;
 			imencode(".jpg", curr_frame, framebuf);
 			buf = &framebuf[0];
-			cout <<"Sending "<<framebuf.size()<<endl;
+			//cout <<"Sending "<<framebuf.size()<<endl;
 			server.send(buf, framebuf.size());
 			i++;
     	}
