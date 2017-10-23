@@ -41,7 +41,7 @@ unsigned char* UDP::receive(size_t& len){
         	*/
         	hostp = gethostbyaddr((const void *)&remoteaddr.sin_addr, sizeof(remoteaddr.sin_addr), AF_INET);
         	if (hostp == NULL){
-                printf("Could not get host info by address...\n");
+                //printf("Could not get host info by address...\n");
                	//error("ERROR on gethostbyaddr");
         	}
         	hostaddrp = inet_ntoa(remoteaddr.sin_addr);
@@ -51,7 +51,7 @@ unsigned char* UDP::receive(size_t& len){
                 printf("Received datagram from %s (%s)\n", hostp->h_name, hostaddrp);
 		}
 		first = false;
-		printf("Received %d bytes\n", recv_sz);
+		//printf("Received %d bytes\n", recv_sz);
 	}
 	len = offset;
 	return recvbuf;
