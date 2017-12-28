@@ -33,14 +33,17 @@ int main( int argc, char** argv )
 		#if SHOW_FPS
         gettimeofday(&frameStart, NULL);
     	#endif
-
 		buf = client.receive(len);
+		if(buf == nullptr){
+			printf("Received buffer is null...\n");
+			continue;
+		}
 		//cout << "Received "<< len<<endl;
 		Mat imgenc = Mat(640, 480, CV_8UC3, (unsigned char*)buf);
 		Mat img = imdecode(imgenc, IMREAD_COLOR);
 		if( img.empty() ) {                     // Check for invalid input
         	cout <<  "Could not create image" << std::endl ;
-        	return -1;
+        	continue;
     	}
     	imshow("Fish tank", img );                // Show our image inside it.
 		#if SHOW_FPS

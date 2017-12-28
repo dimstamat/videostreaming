@@ -10,7 +10,6 @@
 void UDP::error(const char *msg) {
 	printf("%s: %s\n", msg, hstrerror(h_errno));
 	//perror(msg);
-    exit(1);
 }
 
 
@@ -29,8 +28,10 @@ unsigned char* UDP::receive(size_t& len){
 	bzero(recvbuf, RECVBUFSIZE);
 	while(hasmore == 1){
 		recv_sz = recvfrom(sockfd, recvbuf + offset, RECVBUFBATCHSIZE, 0, (struct sockaddr *) &remoteaddr, &remotelen);
-		if (recv_sz < 0)
+		if (recv_sz < 0){
 			error("ERROR in recvfrom");
+			return nullptr;
+		}
 		if (recv_sz == 0)
 			printf("Received empty message! (huh?)\n");
         hasmore = (unsigned) recvbuf[offset + recv_sz-1];
