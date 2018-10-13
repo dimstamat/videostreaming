@@ -9,10 +9,11 @@
 
 #include <sys/time.h>
 
+#include "streamincludes.hh"
+
 using namespace cv;
 using namespace std;
 
-#define ACCEPTANCE_KEY "start camera streaming!"
 
 #define SHOW_FPS 1
 
@@ -26,7 +27,7 @@ int main( int argc, char** argv )
     struct timeval frameStart, frameEnd;
     #endif
 
-    UDPClient client = UDPClient("dimosdroid.zapto.org", 9090);
+    UDPClient client = UDPClient("XXXX", 9090);
 	client.send((unsigned char*) ACCEPTANCE_KEY, strlen(ACCEPTANCE_KEY));
 	namedWindow( "Fish tank", WINDOW_AUTOSIZE ); // Create a window for display.
     while(1){
