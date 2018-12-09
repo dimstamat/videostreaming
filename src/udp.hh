@@ -10,8 +10,9 @@
 
 #define RECVBUFBATCHSIZE 65507
 #define RECVBUFSIZE 1048576 //1MB buffer
-#define SENDBUFMAXSIZE 65507
-//#define SENDBUFMAXSIZE 100
+//#define SENDBUFMAXSIZE 65507
+// UDP Over LTE does not allow packet size more than 1400. Either send small buffers manually, or set IP fragmentation
+#define SENDBUFMAXSIZE 1400
 
 using namespace std;
 

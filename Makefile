@@ -1,7 +1,7 @@
 INCLUDEPATH=/usr/local/include
 LIBS=/usr/local/lib
 #FLAGS=-lopencv_features2d -lopencv_imgproc -lopencv_highgui -lopencv_core -lopencv_imgcodecs -lz
-FLAGS=-lopencv_videoio -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs
+FLAGS=-std=c++0x -lopencv_videoio -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -lpthread
 CC=g++
 SRCS=$(wildcard src/*.cc)
 OBJS = $(patsubst src/%.cc,%.o,%(SRCS))
@@ -10,7 +10,7 @@ MADE_OBJ = false
 
 all:	$(PROGS)
 
-%.o:	src/%.cc
+%.o:	src/%.cc src/measure_latencies.hh src/udp.hh
 	$(CC) -c $< -I$(INCLUDEPATH) -L$(LIBS) $(FLAGS)
 
 %:	src/%.cc %.o

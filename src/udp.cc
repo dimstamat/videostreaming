@@ -4,6 +4,8 @@
 #include <fcntl.h>
 #include <vector>
 
+#include "measure_latencies.hh"
+
 /*
  * error - wrapper for perror
  */
@@ -40,14 +42,16 @@ unsigned char* UDP::receive(size_t& len){
 			/* 
         	* gethostbyaddr: determine who sent the datagram
         	*/
+			remoteaddr.sin_family = AF_INET;
         	hostp = gethostbyaddr((const void *)&remoteaddr.sin_addr, sizeof(remoteaddr.sin_addr), AF_INET);
         	if (hostp == NULL){
-                //printf("Could not get host info by address...\n");
+                printf("Could not get host info by address...\n");
                	//error("ERROR on gethostbyaddr");
         	}
         	hostaddrp = inet_ntoa(remoteaddr.sin_addr);
         	if (hostaddrp == NULL)
                 error("ERROR on inet_ntoa\n");
+			printf("Received from %s\n", hostaddrp);
         	if(hostp != NULL)
                 printf("Received datagram from %s (%s)\n", hostp->h_name, hostaddrp);
 		}
@@ -65,16 +69,20 @@ void UDP::send(unsigned char* sendbuf, size_t len){
     bool done=false;
     int send_sz;
 
+	INIT_COUNTING
+
     while (len > sendoffset){
     	// will include a flag at the end of the message to indicate whether there is a next package: 1 for yes, 0 for no
         if (len-sendoffset < SENDBUFMAXSIZE)
         	done = true;
         currsendlen = (done? len - sendoffset + 1: SENDBUFMAXSIZE);
-        // leave space for the flag at the end!
+		// leave space for the flag at the end!
         memcpy(bufchunk, sendbuf+sendoffset, currsendlen-1 );
         bufchunk[currsendlen-1] = (done? 0: 1);
        	//printf("Sending %d bytes [%d, %d]\n", currsendlen, sendoffset, sendoffset + currsendlen-2);
-      	send_sz = sendto(sockfd, bufchunk, currsendlen, 0, (struct sockaddr *) &remoteaddr, remotelen);
+      	START_COUNTING
+		send_sz = sendto(sockfd, bufchunk, currsendlen, 0, (struct sockaddr *) &remoteaddr, remotelen);
+		STOP_COUNTING_PRINT("UDP send")
 		sendoffset+=currsendlen-1;
 	}
     if (send_sz < 0)

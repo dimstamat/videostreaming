@@ -13,17 +13,20 @@ UDPClient::UDPClient(const char* hostname, int portno){
     	error("ERROR opening socket");
 
   	/* gethostbyname: get the server's DNS entry */
-    server = gethostbyname(hostname);
+    /*server = gethostbyname(hostname);
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host as %s\n", hostname);
         exit(0);
-    }
+    }*/
 
     /* build the server's Internet address */
     bzero((char *) &remoteaddr, sizeof(remoteaddr));
     remoteaddr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, (char *)&remoteaddr.sin_addr.s_addr, server->h_length);
+    //bcopy((char *)server->h_addr, (char *)&remoteaddr.sin_addr.s_addr, server->h_length);
     remoteaddr.sin_port = htons(portno);
+	if(inet_aton(hostname, &remoteaddr.sin_addr) == 0){
+		printf("Error creating remote server!\n");
+	}
 	remotelen = sizeof(remoteaddr);	
 	printf("All good!\n");
 }

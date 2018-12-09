@@ -23,6 +23,10 @@ UDPServer::UDPServer(int port){
    	*/
   	optval = 1;
   	setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int));
+	// do not do MTU Discovery, this will result to IP fragmentation.
+	int val = IP_PMTUDISC_DONT;
+	setsockopt(sockfd, IPPROTO_IP, IP_MTU_DISCOVER, &val, sizeof(val));
+
 
   	/*
    	* build the server's Internet address
